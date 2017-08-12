@@ -50,13 +50,13 @@ router.get('/edit/:id', ensureAuthenticated, function(req, res){
     Article.findById(req.params.id, function(err, article){
         if(article.author != req.user._id){
             req.flash('danger', 'Not Authorized');
-            return res.redirect('/');
-
+            res.redirect('/');
+        } else {
+            res.render('edit_article', {
+              title:'Edit Article',
+              article: article
+            });
         }
-        res.render('edit_article', {
-            title:'Edit Article',
-            article: article
-        });
     });
 });
 
