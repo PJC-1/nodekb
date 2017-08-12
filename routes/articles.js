@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-// Bring in Article Model
+// Article Model
 let Article = require('../models/article');
-// Bring in User Model
+// User Model
 let User = require('../models/user');
 
 // Add Route
@@ -32,7 +32,7 @@ router.post('/add', function(req, res){
         article.title = req.body.title;
         article.author = req.user._id;
         article.body = req.body.body;
-        
+
         article.save(function(err){
             if(err){
                 console.log(err);
@@ -88,8 +88,11 @@ router.delete('/:id', function(req, res){
 // Get Single Article
 router.get('/:id', function(req, res){
     Article.findById(req.params.id, function(err, article){
-        res.render('article', {
-            article: article
+        User.findById(article.author, function(err, user){
+            res.render('article', {
+              article: article,
+              author: user.name
+            });
         });
     });
 });
