@@ -8,7 +8,7 @@ const session = require('express-session');
 const passport = require('passport');
 const config = require('./config/database');
 
-mongoose.connect(config.database);
+mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || config.database);
 let db = mongoose.connection;
 
 // Check connection
@@ -103,6 +103,6 @@ app.use('/articles', articles);
 app.use('/users', users);
 
 // Start Server
-app.listen(3000, function(){
+app.listen(process.env.PORT || 3000, function(){
     console.log('You are listening on port 3000...');
 });
