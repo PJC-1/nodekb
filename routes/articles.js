@@ -7,7 +7,7 @@ let Article = require('../models/article');
 let User = require('../models/user');
 
 // Add Route
-router.get('/add', function(req, res){
+router.get('/add', ensureAuthenticated, function(req, res){
     res.render('add_article', {
         title: 'Add Article'
     });
@@ -46,7 +46,7 @@ router.post('/add', function(req, res){
 });
 
 // Load Edit form
-router.get('/edit/:id', function(req, res){
+router.get('/edit/:id', ensureAuthenticated, function(req, res){
     Article.findById(req.params.id, function(err, article){
         res.render('edit_article', {
             title:'Edit Article',
@@ -96,5 +96,15 @@ router.get('/:id', function(req, res){
         });
     });
 });
+
+// Access Control
+function ensureAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    } else {
+        req.flash('danger', 'Please login');
+        res.redirect('/users/login/');
+    }
+}
 
 module.exports = router;
