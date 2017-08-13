@@ -45,8 +45,9 @@ app.use(session({
     secret: 'keyboard cat',
     resave: true,
     saveUninitialized: true,
-    store: new MongoStore({ url: process.env.MONGOLAB_URI })
-    // cookie: { secure: true }
+    store: new MongoStore({
+         url: process.env.MONGOLAB_URI
+       })
 }));
 
 // Express Message Middleware
