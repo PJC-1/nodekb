@@ -44,10 +44,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: 'keyboard cat',
     resave: true,
-    saveUninitialized: true,
-    store: new MongoStore({
-         url: process.env.MONGOLAB_URI
-       })
+    saveUninitialized: true
+    // store: new MongoStore({
+    //      url: process.env.MONGOLAB_URI
+    //    })
 }));
 
 // Express Message Middleware
