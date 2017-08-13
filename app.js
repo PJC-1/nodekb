@@ -8,9 +8,7 @@ const session = require('express-session');
 const passport = require('passport');
 const config = require('./config/database');
 
-mongoose.MongoClient.connect(process.env.MONGOLAB_URI || process.env.MONGOHQ || config.database, {
-    useMongoClient: true
-});
+mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGOHQ || config.database);
 let db = mongoose.connection;
 
 // Check connection
