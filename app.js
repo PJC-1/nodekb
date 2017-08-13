@@ -7,8 +7,9 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
 const config = require('./config/database');
+const MongoStore = require('connect-mongo')(session);
 
-mongoose.connect(config.database);
+mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGOHQ || config.database);
 let db = mongoose.connection;
 
 // Check connection
@@ -43,8 +44,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: 'keyboard cat',
     resave: true,
-    saveUninitialized: true,
-    // cookie: { secure: true }
+    saveUninitialized: true
+    // store: new MongoStore({
+    //      url: process.env.MONGOLAB_URI
+    //    })
 }));
 
 // Express Message Middleware
@@ -103,6 +106,6 @@ app.use('/articles', articles);
 app.use('/users', users);
 
 // Start Server
-app.listen(3000, function(){
+app.listen(process.env.PORT || 3000, function(){
     console.log('You are listening on port 3000...');
 });
