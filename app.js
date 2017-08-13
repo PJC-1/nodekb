@@ -7,6 +7,7 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
 const config = require('./config/database');
+const MongoStore = require('connect-mongo')(session);
 
 mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGOHQ || config.database);
 let db = mongoose.connection;
@@ -44,9 +45,7 @@ app.use(session({
     secret: 'keyboard cat',
     resave: true,
     saveUninitialized: true,
-    store: new MongoStore({
-      url: process.env.MONGOLAB_URI
-    })
+    store: new MongoStore({ url: process.env.MONGOLAB_URI })
     // cookie: { secure: true }
 }));
 
